@@ -88,9 +88,6 @@
                                         <button type="submit" class="theme-btn btn-one">Register</button>
                                     </div>
                                 </form>
-                                <div class="othre-text">
-                                    <p>Have not any account? <a href="signup.html">Register Now</a></p>
-                                </div>
                             </div>
                         </div>
                     </div>

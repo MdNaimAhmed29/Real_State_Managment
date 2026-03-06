@@ -1,6 +1,9 @@
 @extends('frontend.frontend_dashboard')
 @section('main')
 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 <!--Page Title-->
 <section class="page-title centred" style="background-image: url({{ asset('frontend/assets/images/background/page-title-5.jpg') }});">
     <div class="auto-container">
@@ -29,11 +32,9 @@
 
             @endphp
 
-
-
-            <!-- LEFT SIDE -->
             <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
                 <div class="blog-sidebar">
+
                     <div class="sidebar-widget post-widget">
                         <div class="widget-title">
                             <h4>User Profile </h4>
@@ -49,66 +50,77 @@
                                     <a href="blog-details.html">{{ $userData->name }}</a>
                                 </h5>
                                 <p>{{ $userData->email }}<use/p>
-                            </div> 
+                            </div>
                         </div>
-                    </div> 
+                    </div>
 
                     <div class="sidebar-widget category-widget">
                         
                         @include('frontend.dashboard.dashboard_sidebar')
 
-                    </div> 
+                    </div>
 
                 </div>
             </div>
 
-            <!-- RIGHT SIDE -->
+
+
             <div class="col-lg-8 col-md-12 col-sm-12 content-side">
                 <div class="blog-details-content">
                     <div class="news-block-one">
                         <div class="inner-box">
                             <div class="lower-content">
-                                <h3>Including Animation In Your Design System.</h3>
 
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <div class="card-body" style="background-color: #1baf65;">
-                                            <h1 class="card-title" style="color: white; font-weight: bold;">0</h1>
-                                            <h5 class="card-text" style="color: white;"> Approved properties</h5>
-                                        </div>
+                                <form action="{{ route('user.profile.store') }}" method="post" class="default-form" enctype="multipart/form-data">
+
+                                    @csrf
+
+                                    <div class="form-group">
+                                        <label>Username</label>
+                                        <input type="text" name="username" value="{{ $userData->username }}">
                                     </div>
 
-                                    <div class="col-md-4">
-                                        <div class="card-body" style="background-color: #ffc107;">
-                                            <h1 class="card-title" style="color: white; font-weight: bold;">0</h1>
-                                            <h5 class="card-text" style="color: white;"> Pending approve properties</h5>
-                                        </div>
+                                    <div class="form-group">
+                                        <label>Name</label>
+                                        <input type="text" name="name" value="{{ $userData->name }}">
                                     </div>
 
-                                    <div class="col-md-4">
-                                        <div class="card-body" style="background-color: #002758;">
-                                            <h1 class="card-title" style="color: white; font-weight: bold;">0</h1>
-                                            <h5 class="card-text" style="color: white;"> Rejected properties</h5>
-                                        </div>
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="email" name="email" value="{{ $userData->email }}">
                                     </div>
-                                </div> 
+
+                                    <div class="form-group">
+                                        <label>Phone</label>
+                                        <input type="text" name="phone" value="{{ $userData->phone }}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Address</label>
+                                        <input type="text" name="address" value="{{ $userData->address }}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="formFile" class="form-label">Photo</label>
+                                        <input class="form-control" name="photo" type="file" id="image">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="formFile" class="form-label"> </label>
+                                        <img id="showImage" src="{{ (!empty($userData->photo)) ? url('upload/user_images/'.$userData->photo ) : url('upload/no_image.jpg')}}" alt="" style="width: 100px; height: 100px;">
+                                    </div>
+
+                                    <div class="form-group message-btn">
+                                        <button type="submit" class="theme-btn btn-one">
+                                            Save Changes
+                                        </button>
+                                    </div>
+                                </form>
 
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="blog-details-content">
-                    <div class="news-block-one">
-                        <div class="inner-box">
-                            <div class="lower-content">
-                                <h3>Activity Logs</h3>
-                                <hr>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
         </div>
@@ -145,5 +157,29 @@
     </div>
 </section>
 <!-- subscribe-section end -->
+
+
+<script type="text/javascript">
+    
+    $(document).ready(function(){
+
+        $('#image').change(function(e){
+
+            var reader = new FileReader();
+
+            reader.onload = function(e){
+
+                $('#showImage').attr('src',e.target.result);
+
+            }
+
+            reader.readAsDataURL(e.target.files['0']);
+
+        });
+
+    });
+
+</script>
+
 
 @endsection

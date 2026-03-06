@@ -5,8 +5,7 @@
         <div class="top-inner clearfix">
             <div class="left-column pull-left">
                 <ul class="info clearfix">
-                    <li><i class="far fa-map-marker-alt"></i>Discover St, New York, NY 10012, USA</li>
-                    <li><i class="far fa-clock"></i>Mon - Sat  9.00 - 18.00</li>
+                    <li><i class="far fa-map-marker-alt"></i>Discover available Property in Dhaka, Bangladesh</li>
                     <li><i class="far fa-phone"></i><a href="tel:2512353256">+251-235-3256</a></li>
                 </ul>
             </div>
@@ -18,9 +17,23 @@
                     <li><a href="index.html"><i class="fab fa-google-plus-g"></i></a></li>
                     <li><a href="index.html"><i class="fab fa-vimeo-v"></i></a></li>
                 </ul>
+
+                @auth
+
                 <div class="sign-box">
-                    <a href="signin.html"><i class="fas fa-user"></i>Sign In</a>
+                    <a href="{{ route('dashboard') }}"><i class="fas fa-user"></i>Dashboard</a>
+
+                    <a href="{{ route('user.logout') }}"><i class="fas fa-user"></i>Logout</a>
                 </div>
+
+                @else
+
+                <div class="sign-box">
+                    <a href="{{ route('login') }}"><i class="fas fa-user"></i>Sign In</a>
+                </div>
+
+                @endauth
+
             </div>
         </div>
     </div>
