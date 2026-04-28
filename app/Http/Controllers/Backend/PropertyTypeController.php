@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\PropertyType;
+use App\Models\Amenities;
 use Illuminate\Http\Request;
 
 class PropertyTypeController extends Controller
@@ -29,7 +30,7 @@ class PropertyTypeController extends Controller
 
         $request->validate([
 
-            'type_name'=>'required|unique:property_types|max:200',
+            'type_name'=>'required|unique:amenities|max:200',
             'type_icon'=>'required'
 
         ]);
@@ -101,6 +102,97 @@ class PropertyTypeController extends Controller
         $notification = array(
 
             'message' => 'Property Type Deleted Successfully',
+            'alert-type' => 'success'
+
+        );
+
+        return redirect()->back()->with($notification);
+
+    }//End Method
+
+
+    ///All Amenities Method///
+
+
+    public function AllAmenitie(){
+
+        $amenities = Amenities::latest()->get();
+        return view('backend.amenities.all_amenitie', compact('amenities'));
+
+    }//End Method
+
+
+    public function AddAmenitie(){
+
+        return view('backend.amenities.add_amenitie');
+
+    }//End Method
+
+
+    public function StoreAmenitie(Request $request){
+
+        $request->validate([
+            'amenities_name'=>'required|unique:amenities|max:200'
+        ]);
+
+        Amenities::insert([
+            'amenities_name' => $request->amenities_name,
+        ]);
+
+        $notification = array(
+            'message' => 'Amenitie Added Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('all.amenitie')->with($notification);
+    }//End Method
+
+
+    public function EditAmenitie($id){
+
+        $amenities = Amenities::findorFail($id);
+
+        return view('backend.amenities.edit_amenitie',compact('amenities'));
+
+    }//End Method
+
+
+    public function UpdateAmenitie(Request $request){
+
+        $request->validate([
+
+            'amenities_name'=>'required|unique:amenities|max:200'
+
+        ]);
+
+        $ame_id = $request->id;
+
+        Amenities::findorFail($ame_id)->update([
+
+            'amenities_name' => $request->amenities_name,
+
+        ]);
+
+
+        $notification = array(
+
+            'message' => 'Amenitie Updated Successfully',
+            'alert-type' => 'success'
+
+        );
+
+        return redirect()->route('all.amenitie')->with($notification);
+
+    }//End Method
+
+
+    public function DeleteAmenitie($id){
+
+        Amenities::findorFail($id)->delete();
+
+        $notification = array(
+
+            'message' => 'Amenitie Deleted Successfully',
             'alert-type' => 'success'
 
         );
